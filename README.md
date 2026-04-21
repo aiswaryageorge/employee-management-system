@@ -76,8 +76,6 @@ REACT_APP_API_URL=http://localhost:8080
 
 ## 📸 Screenshots
 
-## 📸 Screenshots
-
 ### Login
 ![Login](frontend/public/screenshots/login.png)
 
