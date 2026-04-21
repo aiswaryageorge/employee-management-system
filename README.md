@@ -76,7 +76,19 @@ REACT_APP_API_URL=http://localhost:8080
 
 ## 📸 Screenshots
 
-*Add screenshots here (Dashboard, Login, Add/Edit, Pagination, Search)*
+## 📸 Screenshots
+
+### Login
+![Login](frontend/public/screenshots/login.png)
+
+### Dashboard
+![Dashboard](frontend/public/screenshots/dashboard.png)
+
+### Pagination
+![Pagination](frontend/public/screenshots/pagination.png)
+
+### Search
+![Search](frontend/public/screenshots/search.png)
 
 ---
 
