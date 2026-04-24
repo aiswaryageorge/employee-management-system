@@ -16,7 +16,7 @@ public class EmployeeManagementSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeManagementSystemApplication.class, args);
 	}
-	/*@Bean
+	@Bean
 	CommandLineRunner init(UserRepository repo, PasswordEncoder encoder) {
 		return args -> {
 
@@ -37,5 +37,5 @@ public class EmployeeManagementSystemApplication {
 				System.out.println("✅ ADMIN ALREADY EXISTS");
 			}
 		};
-	}*/
+	}
 }

@@ -13,39 +13,57 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-    - ems-network
-
-
+      - ems-network
 
   backend:
     build: .
     container_name: ems-backend
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       mysql:
         condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ems?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     networks:
       - ems-network
 
-
   frontend:
-        build:
-          context: ../../ems-frontend   # IMPORTANT (adjust if needed)
-        container_name: ems-frontend
-        ports:
-          - "3000:80"
-        depends_on:
-          - backend
-        networks:
-          - ems-network
+    build:
+      context: ../frontend
+    container_name: ems-frontend
+    expose:
+      - "80"
+    depends_on:
+      - backend
+    networks:
+      - ems-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: ems-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - ems-network
 
 networks:
-      ems-network:
+  ems-network:
+
 volumes:
   mysql-data:

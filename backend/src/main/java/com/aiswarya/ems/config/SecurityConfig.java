@@ -1,8 +1,11 @@
 package com.aiswarya.ems.config;
-
 import com.aiswarya.ems.security.CustomUserDetailsService;
 import com.aiswarya.ems.security.JwtAuthenticationFilter;
 import com.aiswarya.ems.security.JwtService;
+
+import java.util.Arrays;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,17 +16,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+@PostConstruct
+public void init() {
+    System.out.println("### NEW SECURITY CONFIG LOADED ###");
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Inject dependencies HERE instead of constructor
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(
             JwtService jwtService,
@@ -32,19 +45,49 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(jwtService, userDetailsService);
     }
 
+    
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   JwtAuthenticationFilter jwtFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+        HttpSecurity http,
+        JwtAuthenticationFilter jwtFilter) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .requestMatchers("/auth/**").permitAll()
+            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .anyRequest().authenticated()
+        )
+          .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
+   }
+
+    @Bean
+public CorsConfigurationSource corsConfigurationSource() {
+
+    CorsConfiguration configuration = new CorsConfiguration();
+
+    configuration.setAllowedOrigins(Arrays.asList(
+        "https://13.201.57.73.nip.io",
+        "http://13.201.57.73.nip.io",
+        "http://localhost:3000"
+    ));
+
+    configuration.setAllowedMethods(Arrays.asList(
+        "GET", "POST", "PUT", "DELETE", "OPTIONS"
+    ));
+
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+
+    UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+}
 }

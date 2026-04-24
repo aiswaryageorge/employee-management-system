@@ -60,7 +60,7 @@ api.interceptors.response.use(
         console.log("Refresh token:", refreshToken);
 
         // Call refresh API
-        const res = await axios.post("http://localhost:8080/auth/refresh", {
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {
           refreshToken: refreshToken
         });
           console.log("FULL REFRESH RESPONSE:", res.data);
