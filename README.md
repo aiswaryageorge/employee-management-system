@@ -1,42 +1,62 @@
 #  Employee Management System
 
-A full-stack Employee Management System built with **React, Spring Boot, and MySQL**, featuring authentication, role-based access control, and Dockerized backend services.
+A production-ready full-stack **Employee Management System** built using **React, Spring Boot, Spring Security, JWT, MySQL, Docker, Nginx, and AWS**.
+
+This project demonstrates real-world software engineering practices including secure authentication, CRUD operations, cloud deployment, reverse proxy setup, SSL, and managed database integration.
 
 ---
 
 ##  Tech Stack
 
-* **Frontend**: React.js, Axios, CSS
-* **Backend**: Spring Boot, Spring Security, JWT
-* **Database**: MySQL
-* **DevOps**: Docker, Docker Compose
+* **Frontend**: React.js, Axios, CSS, React Router
+* **Backend**: Spring Boot, Spring Security, JWT JWT Authentication, REST APIs
+* **Database**: MySQL, AWS RDS (Managed MySQL)
+* **DevOps**: Docker, Docker Compose, Nginx Reverse Proxy, HTTPS SSL, Elastic IP
 
 ---
 
 ##  Features
 
-*  JWT Authentication (Login/Register)
-*  Role-Based Access (Admin/User)
-*  Add /  Edit /  Delete Employees
-*  Search Employees (server-side)
-*  Pagination (Spring Pageable)
-*  Sorting (Name / Salary)
-*  Clean UI with cards & responsive layout
-*  Toast notifications & loading states
-*  Dockerized backend & database
+### Authentication & Security
+- JWT Login / Register
+- Role-Based Access Control (Admin / User)
+- Protected Routes
+- Secure API Access
+
+### Employee Management
+- Add Employees
+- Edit Employees
+- Delete Employees
+- Search Employees
+- Pagination
+- Sorting (Name / Salary)
+
+### User Experience
+- Responsive UI
+- Toast Notifications
+- Loading States
+- Clean Dashboard Layout
+
+### Deployment Features
+- Dockerized Frontend + Backend
+- Reverse Proxy with Nginx
+- HTTPS Enabled
+- AWS RDS Database
+- Elastic IP Stable Hosting
 
 ---
 
 ##  Architecture
 
-```
-React (Frontend)
+````
+React Frontend
       ↓
-Spring Boot API (Backend)
+Nginx Reverse Proxy (HTTPS)
       ↓
-MySQL (Database)
-```
-
+Spring Boot REST API
+      ↓
+AWS RDS MySQL
+````
 ---
 
 ##  Setup Instructions
@@ -90,14 +110,20 @@ REACT_APP_API_URL=http://localhost:8080
 
 ---
 
-##  Future Improvements
+## Deployment Highlights
+* Deployed full-stack app on AWS EC2
+* Configured Nginx reverse proxy
+* Enabled HTTPS SSL access
+* Migrated local MySQL to AWS RDS
+* Fixed React refresh routing in production
+* Used Docker Compose for container orchestration
 
-* Nginx reverse proxy
-* Full Dockerized frontend
-* CI/CD pipeline
-* Deployment on AWS / Render
+## Future Improvements
+* GitHub Actions CI/CD
+* Monitoring & Logging
+* Custom Domain with Route53
+* Kubernetes Deployment
 
----
 
 ## Author
 Aiswarya George
